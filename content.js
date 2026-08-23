@@ -61,6 +61,8 @@ window.creatorSiteContent = {
 
   collaborations: [
     { name: "ASUS", category: "Tech Hardware", logo: "./assets/logos/asus.png" },
+    { name: "Intel", category: "Technology", logo: "./assets/logos/intel.png" },
+    { name: "MSI", category: "Gaming Hardware", logo: "./assets/logos/msi.png" },
     { name: "Creati", category: "AI Creative Tool", logo: "./assets/logos/creati.png" },
     { name: "Emergent", category: "AI Platform", logo: "./assets/logos/emergent.png" },
     { name: "FIFINE", category: "Audio Gear", logo: "./assets/logos/fifine.png" },
@@ -70,14 +72,12 @@ window.creatorSiteContent = {
     { name: "Hollyland", category: "Creator Gear", logo: "./assets/logos/hollyland.png" },
     { name: "Huawei", category: "Technology", logo: "./assets/logos/huawei.png" },
     { name: "Infinix", category: "Smartphones", logo: "./assets/logos/infinix.png" },
-    { name: "Intel", category: "Technology", logo: "./assets/logos/intel.png" },
     { name: "Jobhunt", category: "Career Platform", logo: "./assets/logos/jobhunt.png" },
     { name: "Kimi", category: "AI Assistant", logo: "./assets/logos/kimi.png" },
     { name: "Kumospace", category: "Virtual Events", logo: "./assets/logos/kumospace.png" },
     { name: "Lovart", category: "Design AI", logo: "./assets/logos/lovart.png" },
     { name: "Medeo", category: "AI Video", logo: "./assets/logos/medeo.png" },
     { name: "MINIMAX", category: "AI Models", logo: "./assets/logos/minimax.png" },
-    { name: "MSI", category: "Gaming Hardware", logo: "./assets/logos/msi.png" },
     { name: "OPPO", category: "Smartphones", logo: "./assets/logos/oppo.png" },
     { name: "Pippit", category: "Creator Tools", logo: "./assets/logos/pippit.png" },
     { name: "PixVerse", category: "AI Video", logo: "./assets/logos/pixverse.png" },
