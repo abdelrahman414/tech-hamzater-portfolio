@@ -70,6 +70,7 @@ window.creatorSiteContent = {
     { name: "Hollyland", category: "Creator Gear", logo: "./assets/logos/hollyland.png" },
     { name: "Huawei", category: "Technology", logo: "./assets/logos/huawei.png" },
     { name: "Infinix", category: "Smartphones", logo: "./assets/logos/infinix.png" },
+    { name: "Intel", category: "Technology", logo: "./assets/logos/intel.png" },
     { name: "Jobhunt", category: "Career Platform", logo: "./assets/logos/jobhunt.png" },
     { name: "Kimi", category: "AI Assistant", logo: "./assets/logos/kimi.png" },
     { name: "Kumospace", category: "Virtual Events", logo: "./assets/logos/kumospace.png" },
