@@ -701,16 +701,17 @@ h1 {
 .logo-tile {
   min-height: 11.2rem;
   display: grid;
-  grid-template-rows: minmax(5.3rem, 1fr) auto auto;
-  align-items: end;
-  gap: 0.35rem;
+  grid-template-rows: 5.8rem auto auto;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+  gap: 0.45rem;
   padding: 1.05rem;
+  text-align: center;
   transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
 
 .logo-tile img {
-  align-self: center;
-  justify-self: center;
   width: auto;
   max-width: min(82%, 13.5rem);
   max-height: 4.8rem;
