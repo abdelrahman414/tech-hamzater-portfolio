@@ -60,6 +60,7 @@ window.creatorSiteContent = {
 
   collaborations: [
     { name: "ASUS", category: "Tech Hardware", logo: "./assets/logos/asus.png" },
+    { name: "Creati", category: "AI Creative Tool", logo: "./assets/logos/creati.png" },
     { name: "Emergent", category: "AI Platform", logo: "./assets/logos/emergent.png" },
     { name: "FIFINE", category: "Audio Gear", logo: "./assets/logos/fifine.png" },
     { name: "Flowith", category: "AI Workspace", logo: "./assets/logos/flowith.png" },
@@ -77,8 +78,11 @@ window.creatorSiteContent = {
     { name: "Pippit", category: "Creator Tools", logo: "./assets/logos/pippit.png" },
     { name: "PixVerse", category: "AI Video", logo: "./assets/logos/pixverse.png" },
     { name: "realme", category: "Smartphones", logo: "./assets/logos/realme.png" },
+    { name: "Royal Kludge", category: "Gaming Hardware", logo: "./assets/logos/royal-kludge.png" },
     { name: "Runable", category: "AI Tools", logo: "./assets/logos/runable.png" },
     { name: "Samsung", category: "Technology", logo: "./assets/logos/samsung.png" },
+    { name: "SanDisk", category: "Storage Technology", logo: "./assets/logos/sandisk.png" },
+    { name: "Shimbol", category: "Creator Gear", logo: "./assets/logos/shimbol.png" },
     { name: "Skywork", category: "AI Productivity", logo: "./assets/logos/skywork.png" },
     { name: "Temu", category: "Marketplace", logo: "./assets/logos/temu.png" },
     { name: "Verdent", category: "AI Tools", logo: "./assets/logos/verdent.png" },
