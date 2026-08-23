@@ -1,0 +1,19 @@
+{
+  "name": "abdelrahman-hamza-tech-hamzater-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static portfolio and media kit for Abdelrahman Hamza, known as Tech Hamzater.",
+  "scripts": {
+    "dev": "python3 -m http.server 5173",
+    "start": "python3 -m http.server 5173",
+    "check": "node --check script.js && node --check content.js"
+  },
+  "keywords": [
+    "portfolio",
+    "media-kit",
+    "creator",
+    "technology",
+    "ai",
+    "tech-hamzater"
+  ]
+}
