@@ -19,6 +19,7 @@ window.creatorSiteContent = {
     { label: "Instagram", url: "https://www.instagram.com/tech_hamzater/" },
     { label: "TikTok", url: "https://www.tiktok.com/@tech_hamzater" },
     { label: "YouTube", url: "https://www.youtube.com/@techhamzater" },
+    { label: "Facebook", url: "https://www.facebook.com/share/1EdQGu37qZ/?mibextid=wwXIfr" },
   ],
 
   metrics: [
