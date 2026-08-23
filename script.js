@@ -30,6 +30,11 @@
   setText("[data-brand-initials]", content.profile.initials);
   setText("[data-footer-name]", content.profile.name);
 
+  document.querySelectorAll("[data-brand-avatar]").forEach((image) => {
+    image.setAttribute("src", content.profile.avatar);
+    image.setAttribute("alt", `${content.profile.name} portrait`);
+  });
+
   document.querySelectorAll("[data-email-link]").forEach((link) => {
     link.setAttribute("href", emailHref);
     if (link.classList.contains("large")) {

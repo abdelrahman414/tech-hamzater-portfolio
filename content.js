@@ -3,6 +3,7 @@ window.creatorSiteContent = {
     name: "Abdelrahman Hamza",
     creatorName: "Tech Hamzater",
     initials: "AH",
+    avatar: "./assets/images/abdelrahman-avatar.jpg",
     handle: "@tech_hamzater",
     kicker: "Tech Hamzater / @tech_hamzater",
     headline: "Technology Made Simple. Stories Made to Perform.",
