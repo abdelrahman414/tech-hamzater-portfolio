@@ -1040,6 +1040,12 @@ h1 {
   filter: saturate(0.92) contrast(1.03);
 }
 
+.creation-phone video,
+.creation-poster {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 .creation-card.is-active .creation-phone,
 .creation-card:hover .creation-phone {
   box-shadow: inset 0 0 0 1px rgba(114, 233, 244, 0.28), 0 18px 44px rgba(7, 19, 30, 0.2);

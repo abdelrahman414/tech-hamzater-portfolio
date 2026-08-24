@@ -319,10 +319,14 @@
             loop
             playsinline
             preload="none"
+            draggable="false"
+            controlslist="nodownload noplaybackrate noremoteplayback"
+            disablepictureinpicture
+            disableremoteplayback
           ></video>
         `
         : posterPath
-          ? `<img class="creation-poster" src="${escapeHtml(posterPath)}" alt="" loading="lazy">`
+          ? `<img class="creation-poster" src="${escapeHtml(posterPath)}" alt="" loading="lazy" draggable="false">`
         : "";
       const cardAttributes = `
         class="creation-card"
@@ -364,6 +368,13 @@
     creations.dataset.creationCount = String(content.creations.length);
     creations.dataset.initialIndex = String(initialCreationIndex);
     creations.innerHTML = visualCreations.map(renderCreationCard).join("");
+
+    creations.querySelectorAll("video").forEach((video) => {
+      video.controls = false;
+      video.setAttribute("controlsList", "nodownload noplaybackrate noremoteplayback");
+      video.disablePictureInPicture = true;
+      video.disableRemotePlayback = true;
+    });
   }
 
   const creationDeck = document.querySelector("[data-creation-deck]");
@@ -498,6 +509,16 @@
     deckObserver.observe(creationDeck);
     creationDeck.addEventListener("pointerdown", () => {
       isSettingInitialDeckPosition = false;
+    });
+    creationDeck.addEventListener("contextmenu", (event) => {
+      if (event.target.closest(".creation-card, .creation-phone, video")) {
+        event.preventDefault();
+      }
+    });
+    creationDeck.addEventListener("dragstart", (event) => {
+      if (event.target.closest(".creation-card, .creation-phone, video, img")) {
+        event.preventDefault();
+      }
     });
 
     const centerInitialCreation = () => {
