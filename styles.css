@@ -1603,9 +1603,11 @@ h1 {
 
   html[dir="rtl"] .hero-portrait {
     right: auto;
-    left: -78vw;
-    width: min(88vw, 28rem);
-    opacity: 0.14;
+    bottom: -2.5rem;
+    left: -28vw;
+    width: min(86vw, 30rem);
+    max-height: 60%;
+    opacity: 0.22;
   }
 
   .hero-content {
