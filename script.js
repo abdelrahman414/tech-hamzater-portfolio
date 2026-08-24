@@ -262,7 +262,7 @@
   collaborations.innerHTML = content.collaborations.map(logoTile).join("");
 
   const marquee = document.querySelector("[data-logo-marquee]");
-  const marqueeItems = [...content.collaborations, ...content.collaborations];
+  const marqueeItems = [...content.collaborations, ...content.collaborations, ...content.collaborations];
   marquee.innerHTML = marqueeItems
     .map(
       (item) => `

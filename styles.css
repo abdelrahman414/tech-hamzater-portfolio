@@ -1420,7 +1420,7 @@ h1 {
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translateX(-33.3333%);
   }
 }
 
@@ -1721,5 +1721,11 @@ h1 {
   [data-animate] {
     opacity: 1;
     transform: none;
+  }
+
+  .logo-marquee {
+    animation-duration: 42s !important;
+    animation-iteration-count: infinite !important;
+    animation-timing-function: linear !important;
   }
 }
