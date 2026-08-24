@@ -59,6 +59,137 @@ window.creatorSiteContent = {
     },
   ],
 
+  creations: [
+    {
+      platform: "Instagram Reel",
+      format: "AI Tool Demo",
+      title: "Kimi K3",
+      description:
+        "A fast AI assistant walkthrough built around a clear use case, screen rhythm, and a practical payoff.",
+      runtime: "0:50",
+      video: "./assets/creations/kimi-k3.mp4",
+      url: "https://www.instagram.com/reel/Dbn7rv4IG5u/",
+    },
+    {
+      platform: "TikTok",
+      format: "Product Story",
+      title: "MacBook Workflow",
+      description:
+        "A creator-style tech story that turns a device into a daily workflow people can understand quickly.",
+      runtime: "0:58",
+      video: "./assets/creations/macbook.mp4",
+      url: "https://www.instagram.com/reel/DbTW-quIVfb/",
+    },
+    {
+      platform: "YouTube Shorts",
+      format: "AI Video",
+      title: "PixVerse",
+      description:
+        "AI video creation explained through a visual demo that makes the feature feel immediate and useful.",
+      runtime: "0:44",
+      video: "./assets/creations/pixverse.mp4",
+      url: "https://www.instagram.com/reel/DZnVw-ZoZjK/",
+    },
+    {
+      platform: "Instagram Reel",
+      format: "AI Tool Demo",
+      title: "Verdent AI",
+      description:
+        "A concise product demo with the hook, feature, and result shaped for short attention spans.",
+      runtime: "0:41",
+      video: "./assets/creations/verdent-ai.mp4",
+      url: "https://www.instagram.com/reel/DN6FhTPCMZ0/",
+    },
+    {
+      platform: "TikTok",
+      format: "AI Productivity",
+      title: "Claude",
+      description:
+        "A practical AI workflow angle focused on how Claude can help with research, writing, and everyday productivity.",
+      runtime: "0:51",
+      video: "./assets/creations/claude-free.mp4",
+      url: "https://www.instagram.com/reel/DZDO3JzIhqt/",
+    },
+    {
+      platform: "Instagram Reel",
+      format: "Creative AI",
+      title: "Creati Spider",
+      description:
+        "A visual concept-led piece that makes an AI creative tool feel playful, sharp, and memorable.",
+      runtime: "0:40",
+      video: "./assets/creations/creati-spider.mp4",
+      url: "https://www.instagram.com/reel/Db8g5SKIUs4/",
+    },
+    {
+      platform: "YouTube Shorts",
+      format: "Smartphone Story",
+      title: "Huawei Smartphone",
+      description:
+        "A consumer-tech short that frames the smartphone around everyday features, clean visuals, and a simple reason to care.",
+      runtime: "0:50",
+      video: "./assets/creations/draft-one.mp4",
+      url: "https://www.instagram.com/reel/DaioqM9oV98/",
+    },
+    {
+      platform: "Instagram Reel",
+      format: "AI Builder",
+      title: "Emergent",
+      description:
+        "A product explanation designed to make a technical platform feel understandable fast.",
+      runtime: "0:45",
+      video: "./assets/creations/emergent.mp4",
+      url: "https://www.instagram.com/reel/DbGe2WOo2GR/",
+    },
+    {
+      platform: "TikTok",
+      format: "AI Tool Demo",
+      title: "HappyCapy",
+      description:
+        "A friendly AI-tool presentation with a clear reason to watch and a simple ending.",
+      runtime: "0:52",
+      video: "./assets/creations/happycapy.mp4",
+      url: "https://www.instagram.com/reel/DaqL59woA6d/",
+    },
+    {
+      platform: "Instagram Reel",
+      format: "AI Video",
+      title: "MiniMax",
+      description:
+        "A vertical demo shaped around speed, output quality, and an easy viewer takeaway.",
+      runtime: "0:49",
+      video: "./assets/creations/minimax.mp4",
+      url: "https://www.instagram.com/reel/DcOhJAWoW-3/",
+    },
+    {
+      platform: "YouTube Shorts",
+      format: "Smartphone Story",
+      title: "OPPO",
+      description:
+        "A consumer-tech video built around product benefits, everyday use, and visual polish.",
+      runtime: "1:05",
+      video: "./assets/creations/oppo.mp4",
+      url: "https://www.instagram.com/reel/Da8JtKloyZJ/",
+    },
+    {
+      platform: "TikTok",
+      format: "Tool Discovery",
+      title: "Skill Finder",
+      description:
+        "A compact discovery-style video that turns a useful tool into a save-worthy tip.",
+      runtime: "0:30",
+      video: "./assets/creations/skill-finder.mp4",
+    },
+    {
+      platform: "Instagram Reel",
+      format: "AI Workspace",
+      title: "YouMind",
+      description:
+        "A product-led workflow story made for people who want a tool they can use right away.",
+      runtime: "0:54",
+      video: "./assets/creations/youmind.mp4",
+    },
+  ],
+
   collaborations: [
     { name: "ASUS", category: "Tech Hardware", logo: "./assets/logos/asus.png" },
     { name: "Intel", category: "Technology", logo: "./assets/logos/intel.png" },
