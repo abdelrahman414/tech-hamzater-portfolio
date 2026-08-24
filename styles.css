@@ -141,6 +141,59 @@ a {
   color: var(--cyan-deep);
 }
 
+.header-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 7px;
+  padding: 0.2rem;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.site-header.is-scrolled .language-switcher {
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.64);
+}
+
+.language-switcher button {
+  display: grid;
+  place-items: center;
+  width: 2.28rem;
+  height: 2.28rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1.02rem;
+  line-height: 1;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.language-switcher button:hover,
+.language-switcher button:focus-visible,
+.language-switcher button.is-active {
+  border-color: rgba(114, 233, 244, 0.56);
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+.site-header.is-scrolled .language-switcher button:hover,
+.site-header.is-scrolled .language-switcher button:focus-visible,
+.site-header.is-scrolled .language-switcher button.is-active {
+  border-color: var(--line-strong);
+  background: rgba(114, 233, 244, 0.2);
+}
+
 .header-cta,
 .primary-button,
 .secondary-button,
@@ -158,6 +211,35 @@ a {
 .site-header.is-scrolled .header-cta {
   background: var(--navy);
   color: #fff;
+}
+
+html[dir="rtl"] body {
+  direction: rtl;
+  font-family: "Inter", "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+html[dir="rtl"] .main-nav,
+html[dir="rtl"] .header-actions,
+html[dir="rtl"] .language-switcher,
+html[dir="rtl"] .hero-actions,
+html[dir="rtl"] .social-row,
+html[dir="rtl"] .contact-actions,
+html[dir="rtl"] .logo-marquee,
+html[dir="rtl"] .logo-grid,
+html[dir="rtl"] .creation-deck,
+html[dir="rtl"] .creation-grid,
+html[dir="rtl"] .creation-controls {
+  direction: ltr;
+}
+
+html[dir="rtl"] .creation-card,
+html[dir="rtl"] .case-card,
+html[dir="rtl"] .pillar-card,
+html[dir="rtl"] .service-card,
+html[dir="rtl"] .process-step,
+html[dir="rtl"] .metric,
+html[dir="rtl"] .logo-tile {
+  direction: rtl;
 }
 
 .hero {
@@ -1282,7 +1364,7 @@ h1 {
     display: none;
   }
 
-  .header-cta {
+  .header-actions {
     justify-self: end;
   }
 
@@ -1330,13 +1412,33 @@ h1 {
 
   .brand-mark,
   .main-nav a,
-  .header-cta {
+  .header-cta,
+  .language-switcher button {
     min-height: 2.55rem;
   }
 
   .brand-mark {
     width: 2.55rem;
     height: 2.55rem;
+  }
+
+  .header-actions {
+    gap: 0.35rem;
+  }
+
+  .language-switcher {
+    gap: 0.15rem;
+    padding: 0.16rem;
+  }
+
+  .language-switcher button {
+    width: 1.86rem;
+    height: 2.2rem;
+    font-size: 0.94rem;
+  }
+
+  .header-cta {
+    padding: 0 0.75rem;
   }
 
   .hero {

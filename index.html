@@ -33,23 +33,31 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main" data-i18n="accessibility.skipToContent">Skip to content</a>
 
     <header class="site-header" data-header>
-      <a class="brand-mark" href="#top" aria-label="Go to top">
+      <a class="brand-mark" href="#top" aria-label="Go to top" data-i18n-aria="accessibility.goToTop">
         <span data-brand-initials>AH</span>
       </a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="#about">About</a>
-        <a href="#content">Content</a>
-        <a href="#creations">Creations</a>
-        <a href="#collabs">Brands</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
+      <nav class="main-nav" aria-label="Main navigation" data-i18n-aria="accessibility.mainNavigation">
+        <a href="#about" data-i18n="nav.about">About</a>
+        <a href="#content" data-i18n="nav.content">Content</a>
+        <a href="#creations" data-i18n="nav.creations">Creations</a>
+        <a href="#collabs" data-i18n="nav.brands">Brands</a>
+        <a href="#services" data-i18n="nav.services">Services</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
       </nav>
-      <a class="header-cta" data-email-link href="mailto:abdelrahmanmohamed4141@gmail.com">
-        Email
-      </a>
+      <div class="header-actions">
+        <div class="language-switcher" data-language-switcher aria-label="Language"></div>
+        <a
+          class="header-cta"
+          data-email-link
+          data-i18n="nav.email"
+          href="mailto:abdelrahmanmohamed4141@gmail.com"
+        >
+          Email
+        </a>
+      </div>
     </header>
 
     <main id="main">
@@ -60,6 +68,7 @@
           class="hero-portrait"
           src="./assets/images/boody-portrait-cutout.png"
           alt="Abdelrahman Hamza smiling portrait"
+          data-i18n-alt="media.portraitAlt"
         />
 
         <div class="hero-content">
@@ -74,34 +83,45 @@
             technology community.
           </p>
           <div class="hero-actions">
-            <a class="primary-button" data-email-link href="mailto:abdelrahmanmohamed4141@gmail.com">
+            <a
+              class="primary-button"
+              data-email-link
+              data-i18n="actions.workWithMe"
+              href="mailto:abdelrahmanmohamed4141@gmail.com"
+            >
               Work With Me
             </a>
-            <a class="secondary-button" href="#content">View My Content</a>
+            <a class="secondary-button" href="#content" data-i18n="actions.viewContent">View My Content</a>
           </div>
           <div class="social-row" data-social-links aria-label="Social links"></div>
         </div>
 
-        <aside class="signal-panel" aria-label="Creator signal">
+        <aside class="signal-panel" aria-label="Creator signal" data-i18n-aria="signal.label">
           <span class="signal-dot"></span>
-          <p>Live creator signal</p>
-          <strong>@tech_hamzater</strong>
-          <small>AI tools / gadgets / product stories / MENA audience</small>
+          <p data-i18n="signal.kicker">Live creator signal</p>
+          <strong data-profile-handle>@tech_hamzater</strong>
+          <small data-i18n="signal.detail">AI tools / gadgets / product stories / MENA audience</small>
         </aside>
       </section>
 
-      <section class="metrics-band" aria-label="Creator highlights">
+      <section class="metrics-band" aria-label="Creator highlights" data-i18n-aria="accessibility.creatorHighlights">
         <div class="metrics-grid" data-metrics></div>
       </section>
 
-      <section class="logo-marquee-band" aria-label="Selected collaboration logos">
+      <section
+        class="logo-marquee-band"
+        aria-label="Selected collaboration logos"
+        data-i18n-aria="accessibility.collaborationLogos"
+      >
         <div class="logo-marquee" data-logo-marquee></div>
       </section>
 
       <section class="section split-section" id="about" aria-labelledby="about-title" data-animate>
         <div class="section-heading compact">
-          <p class="eyebrow">About Abdelrahman</p>
-          <h2 id="about-title">Engineer in real life. Creator on the internet.</h2>
+          <p class="eyebrow" data-i18n="sections.about.eyebrow">About Abdelrahman</p>
+          <h2 id="about-title" data-i18n="sections.about.title">
+            Engineer in real life. Creator on the internet.
+          </h2>
         </div>
         <div class="about-panel">
           <p data-profile-about>
@@ -115,14 +135,16 @@
 
       <section class="section" id="content" aria-labelledby="content-title" data-animate>
         <div class="section-heading">
-          <p class="eyebrow">Content Engine</p>
-          <h2 id="content-title">Short-form tech content built around the moment people decide to care.</h2>
+          <p class="eyebrow" data-i18n="sections.content.eyebrow">Content Engine</p>
+          <h2 id="content-title" data-i18n="sections.content.title">
+            Short-form tech content built around the moment people decide to care.
+          </h2>
         </div>
         <div class="content-layout">
           <article class="content-feature">
-            <p class="feature-kicker">Core format</p>
-            <h3>Hook. Demo. Benefit. Action.</h3>
-            <p>
+            <p class="feature-kicker" data-i18n="contentFeature.kicker">Core format</p>
+            <h3 data-i18n="contentFeature.title">Hook. Demo. Benefit. Action.</h3>
+            <p data-i18n="contentFeature.copy">
               Every video starts with a fast reason to watch, then turns product features into
               practical use cases for students, creators, professionals, and everyday tech users.
             </p>
@@ -134,12 +156,18 @@
       <section class="section creations-section" id="creations" aria-labelledby="creations-title" data-animate>
         <div class="creations-head">
           <div class="section-heading">
-            <p class="eyebrow">Featured Creations</p>
-            <h2 id="creations-title">A deck of vertical videos built to make technology feel worth trying.</h2>
+            <p class="eyebrow" data-i18n="sections.creations.eyebrow">Featured Creations</p>
+            <h2 id="creations-title" data-i18n="sections.creations.title">
+              A deck of vertical videos built to make technology feel worth trying.
+            </h2>
           </div>
-          <div class="creation-controls" aria-label="Creation deck controls">
-            <button type="button" data-creation-control="prev" aria-label="Previous video">&larr;</button>
-            <button type="button" data-creation-control="next" aria-label="Next video">&rarr;</button>
+          <div
+            class="creation-controls"
+            aria-label="Creation deck controls"
+            data-i18n-aria="accessibility.creationControls"
+          >
+            <button type="button" data-creation-control="prev" aria-label="Previous video" data-i18n-aria="controls.previousVideo">&larr;</button>
+            <button type="button" data-creation-control="next" aria-label="Next video" data-i18n-aria="controls.nextVideo">&rarr;</button>
           </div>
         </div>
         <div class="creation-deck" data-creation-deck>
@@ -149,41 +177,51 @@
 
       <section class="section work-section" id="work" aria-labelledby="work-title" data-animate>
         <div class="section-heading">
-          <p class="eyebrow">Campaign Angles</p>
-          <h2 id="work-title">Built for products that need explanation, trust, and momentum.</h2>
+          <p class="eyebrow" data-i18n="sections.work.eyebrow">Campaign Angles</p>
+          <h2 id="work-title" data-i18n="sections.work.title">
+            Built for products that need explanation, trust, and momentum.
+          </h2>
         </div>
         <div class="case-grid" data-projects></div>
       </section>
 
       <section class="section collab-section" id="collabs" aria-labelledby="collabs-title" data-animate>
         <div class="section-heading">
-          <p class="eyebrow">Selected Brands</p>
-          <h2 id="collabs-title">AI, software, consumer tech, and creator-tool collaborations.</h2>
+          <p class="eyebrow" data-i18n="sections.collabs.eyebrow">Selected Brands</p>
+          <h2 id="collabs-title" data-i18n="sections.collabs.title">
+            AI, software, consumer tech, and creator-tool collaborations.
+          </h2>
         </div>
         <div class="logo-grid" data-collaborations></div>
       </section>
 
       <section class="section" id="services" aria-labelledby="services-title" data-animate>
         <div class="section-heading">
-          <p class="eyebrow">Services</p>
-          <h2 id="services-title">From the idea to the final post, built for social platforms.</h2>
+          <p class="eyebrow" data-i18n="sections.services.eyebrow">Services</p>
+          <h2 id="services-title" data-i18n="sections.services.title">
+            From the idea to the final post, built for social platforms.
+          </h2>
         </div>
         <div class="service-grid" data-services></div>
       </section>
 
       <section class="section process-section" aria-labelledby="process-title" data-animate>
         <div class="section-heading compact">
-          <p class="eyebrow">Creative Process</p>
-          <h2 id="process-title">A clean path from product brief to platform-native content.</h2>
+          <p class="eyebrow" data-i18n="sections.process.eyebrow">Creative Process</p>
+          <h2 id="process-title" data-i18n="sections.process.title">
+            A clean path from product brief to platform-native content.
+          </h2>
         </div>
         <div class="process-track" data-process></div>
       </section>
 
       <section class="contact-section" id="contact" aria-labelledby="contact-title">
         <div class="contact-inner" data-animate>
-          <p class="eyebrow">Contact</p>
-          <h2 id="contact-title">For collaborations, product launches, and long-term campaigns.</h2>
-          <p>
+          <p class="eyebrow" data-i18n="sections.contact.eyebrow">Contact</p>
+          <h2 id="contact-title" data-i18n="sections.contact.title">
+            For collaborations, product launches, and long-term campaigns.
+          </h2>
+          <p data-i18n="sections.contact.copy">
             Send the brief, target platform, timeline, and deliverables. Abdelrahman replies with
             availability and the best content direction for the campaign.
           </p>

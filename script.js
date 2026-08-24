@@ -1,9 +1,34 @@
 (function () {
-  const content = window.creatorSiteContent;
+  const fallbackContent = window.creatorSiteContent;
+  const localizedContent = window.creatorSiteLocalizedContent || { en: fallbackContent };
+  const languageOptions = window.creatorSiteLanguages || [fallbackContent?.language].filter(Boolean);
 
-  if (!content) {
+  if (!fallbackContent) {
     return;
   }
+
+  const supportedLanguageCodes = Object.keys(localizedContent);
+  const defaultLanguage = "en";
+  const languageStorageKey = "techHamzaterLanguage";
+  const params = new URLSearchParams(window.location.search);
+  const requestedLanguage = params.get("lang");
+  let storedLanguage = "";
+
+  try {
+    storedLanguage = window.localStorage.getItem(languageStorageKey) || "";
+  } catch (error) {
+    storedLanguage = "";
+  }
+
+  const browserLanguage = (navigator.language || "").slice(0, 2).toLowerCase();
+  const initialLanguage = [requestedLanguage, storedLanguage, browserLanguage, defaultLanguage]
+    .map((code) => (code || "").toLowerCase())
+    .find((code) => supportedLanguageCodes.includes(code));
+  const currentLanguage = initialLanguage || defaultLanguage;
+  const content = localizedContent[currentLanguage] || fallbackContent;
+
+  document.documentElement.lang = content.language?.htmlLang || currentLanguage;
+  document.documentElement.dir = content.language?.dir || "ltr";
 
   const setText = (selector, value) => {
     document.querySelectorAll(selector).forEach((node) => {
@@ -18,15 +43,99 @@
       .replaceAll(">", "&gt;")
       .replaceAll('"', "&quot;");
 
+  const getContentValue = (path) =>
+    path.split(".").reduce((source, key) => (source && source[key] != null ? source[key] : undefined), content.ui);
+
+  const applyInterfaceText = () => {
+    document.querySelectorAll("[data-i18n]").forEach((node) => {
+      const value = getContentValue(node.dataset.i18n);
+      if (value != null) {
+        node.textContent = value;
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-aria]").forEach((node) => {
+      const value = getContentValue(node.dataset.i18nAria);
+      if (value != null) {
+        node.setAttribute("aria-label", value);
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-alt]").forEach((node) => {
+      const value = getContentValue(node.dataset.i18nAlt);
+      if (value != null) {
+        node.setAttribute("alt", value);
+      }
+    });
+  };
+
+  const setMeta = (selector, value) => {
+    const node = document.querySelector(selector);
+    if (node && value) {
+      node.setAttribute("content", value);
+    }
+  };
+
+  const renderLanguageSwitcher = () => {
+    document.querySelectorAll("[data-language-switcher]").forEach((switcher) => {
+      switcher.innerHTML = languageOptions
+        .map((language) => {
+          const isActive = language.code === currentLanguage;
+          const label = `${language.nativeLabel} / ${language.label}`;
+
+          return `
+            <button
+              type="button"
+              class="${isActive ? "is-active" : ""}"
+              data-language-option="${escapeHtml(language.code)}"
+              aria-label="${escapeHtml(label)}"
+              title="${escapeHtml(label)}"
+              ${isActive ? 'aria-current="true"' : ""}
+            >
+              <span aria-hidden="true">${escapeHtml(language.flag)}</span>
+            </button>
+          `;
+        })
+        .join("");
+    });
+
+    document.querySelectorAll("[data-language-option]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const nextLanguage = button.dataset.languageOption;
+        if (!nextLanguage || nextLanguage === currentLanguage) {
+          return;
+        }
+
+        try {
+          window.localStorage.setItem(languageStorageKey, nextLanguage);
+        } catch (error) {
+          // Language selection still works through the URL when storage is unavailable.
+        }
+
+        const nextUrl = new URL(window.location.href);
+        nextUrl.searchParams.set("lang", nextLanguage);
+        window.location.href = nextUrl.toString();
+      });
+    });
+  };
+
   const emailHref = `mailto:${content.profile.email}`;
 
   document.title = `${content.profile.name} | ${content.profile.creatorName}`;
+  setMeta('meta[name="description"]', content.meta?.description);
+  setMeta('meta[property="og:title"]', document.title);
+  setMeta('meta[property="og:description"]', content.meta?.socialDescription || content.meta?.description);
+  setMeta('meta[name="twitter:title"]', document.title);
+  setMeta('meta[name="twitter:description"]', content.meta?.socialDescription || content.meta?.description);
+  applyInterfaceText();
+  renderLanguageSwitcher();
   setText("[data-profile-name]", content.profile.name);
   setText("[data-profile-headline]", content.profile.headline);
   setText("[data-profile-kicker]", content.profile.kicker);
   setText("[data-profile-role]", content.profile.role);
   setText("[data-profile-bio]", content.profile.bio);
   setText("[data-profile-about]", content.profile.about);
+  setText("[data-profile-handle]", content.profile.handle);
   setText("[data-brand-initials]", content.profile.initials);
   setText("[data-footer-name]", content.profile.name);
 
@@ -164,7 +273,7 @@
           ${videoMarkup}
           <div class="creation-screen-glow" aria-hidden="true"></div>
           <span class="creation-runtime">${escapeHtml(item.runtime)}</span>
-          ${item.url ? '<span class="creation-link-badge">Open Reel</span>' : ""}
+          ${item.url ? `<span class="creation-link-badge">${escapeHtml(content.ui.actions.openReel)}</span>` : ""}
           <span class="play-mark" aria-hidden="true"></span>
           <div class="creation-overlay">
             <p>${escapeHtml(item.platform)} / ${escapeHtml(item.format)}</p>
