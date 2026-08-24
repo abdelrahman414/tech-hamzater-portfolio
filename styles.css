@@ -283,7 +283,9 @@ html[dir="rtl"] .language-switcher,
 html[dir="rtl"] .hero-actions,
 html[dir="rtl"] .social-row,
 html[dir="rtl"] .contact-actions,
+html[dir="rtl"] .logo-marquee-band,
 html[dir="rtl"] .logo-marquee,
+html[dir="rtl"] .logo-marquee-set,
 html[dir="rtl"] .logo-grid,
 html[dir="rtl"] .creation-deck,
 html[dir="rtl"] .creation-grid,
@@ -631,6 +633,7 @@ h1 {
 }
 
 .logo-marquee-band {
+  direction: ltr;
   overflow: hidden;
   border-bottom: 1px solid var(--line);
   background: #f8fdfe;
@@ -639,9 +642,17 @@ h1 {
 .logo-marquee {
   display: flex;
   width: max-content;
-  gap: 0.8rem;
+  gap: 0;
   padding: 1rem 0;
-  animation: marquee 42s linear infinite;
+  animation: marquee 68s linear infinite;
+  will-change: transform;
+}
+
+.logo-marquee-set {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.8rem;
+  padding-inline-end: 0.8rem;
 }
 
 .marquee-logo {
@@ -1420,7 +1431,7 @@ h1 {
   }
 
   to {
-    transform: translateX(-33.3333%);
+    transform: translateX(-50%);
   }
 }
 
@@ -1724,7 +1735,7 @@ h1 {
   }
 
   .logo-marquee {
-    animation-duration: 42s !important;
+    animation-duration: 68s !important;
     animation-iteration-count: infinite !important;
     animation-timing-function: linear !important;
   }

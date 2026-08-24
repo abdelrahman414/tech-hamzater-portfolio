@@ -262,16 +262,19 @@
   collaborations.innerHTML = content.collaborations.map(logoTile).join("");
 
   const marquee = document.querySelector("[data-logo-marquee]");
-  const marqueeItems = [...content.collaborations, ...content.collaborations, ...content.collaborations];
-  marquee.innerHTML = marqueeItems
+  const marqueeSetMarkup = content.collaborations
     .map(
       (item) => `
-        <div class="marquee-logo">
-          <img src="${item.logo}" alt="" loading="lazy">
+        <div class="marquee-logo" aria-hidden="true">
+          <img src="${item.logo}" alt="" loading="eager">
         </div>
       `,
     )
     .join("");
+  marquee.innerHTML = `
+    <div class="logo-marquee-set">${marqueeSetMarkup}</div>
+    <div class="logo-marquee-set" aria-hidden="true">${marqueeSetMarkup}</div>
+  `;
 
   const proofPoints = document.querySelector("[data-proof-points]");
   proofPoints.innerHTML = content.proofPoints.map((item) => `<li>${escapeHtml(item)}</li>`).join("");

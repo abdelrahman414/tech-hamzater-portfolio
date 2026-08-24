@@ -207,10 +207,10 @@ window.creatorSiteContent = {
     { name: "Kimi", category: "AI Assistant", logo: "./assets/logos/kimi.png" },
     { name: "Kumospace", category: "Virtual Events", logo: "./assets/logos/kumospace.png" },
     { name: "Lovart", category: "Design AI", logo: "./assets/logos/lovart.png" },
-    { name: "M3aarf", category: "Education Platform", logo: "./assets/logos/m3aarf.png" },
+    { name: "M3aarf", category: "Education Platform", logo: "./assets/logos/m3aarf-large.png" },
     { name: "Medeo", category: "AI Video", logo: "./assets/logos/medeo.png" },
     { name: "MINIMAX", category: "AI Models", logo: "./assets/logos/minimax.png" },
-    { name: "Numero eSIM", category: "Digital Connectivity", logo: "./assets/logos/numero-esim.png" },
+    { name: "Numero eSIM", category: "Digital Connectivity", logo: "./assets/logos/numero-esim-large.png" },
     { name: "OPPO", category: "Smartphones", logo: "./assets/logos/oppo.png" },
     { name: "Pippit", category: "Creator Tools", logo: "./assets/logos/pippit.png" },
     { name: "PixVerse", category: "AI Video", logo: "./assets/logos/pixverse.png" },
@@ -225,7 +225,7 @@ window.creatorSiteContent = {
     { name: "Verdent", category: "AI Tools", logo: "./assets/logos/verdent.png" },
     { name: "WINGOO", category: "Technology", logo: "./assets/logos/wingoo.png" },
     { name: "YouMind", category: "AI Workspace", logo: "./assets/logos/youmind.png" },
-    { name: "BESA Group", category: "Educational Services", logo: "./assets/logos/besa-group.png" },
+    { name: "BESA Group", category: "Educational Services", logo: "./assets/logos/besa-group-large.png" },
   ],
 
   projects: [
