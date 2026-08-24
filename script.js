@@ -78,31 +78,85 @@
 
   const renderLanguageSwitcher = () => {
     document.querySelectorAll("[data-language-switcher]").forEach((switcher) => {
-      switcher.innerHTML = languageOptions
-        .map((language) => {
-          const isActive = language.code === currentLanguage;
-          const label = `${language.nativeLabel} / ${language.label}`;
+      const activeLanguage =
+        languageOptions.find((language) => language.code === currentLanguage) || languageOptions[0];
+      const activeLabel = `${activeLanguage.nativeLabel} / ${activeLanguage.label}`;
+      const menuId = `language-menu-${Math.random().toString(36).slice(2, 8)}`;
 
-          return `
-            <button
-              type="button"
-              class="${isActive ? "is-active" : ""}"
-              data-language-option="${escapeHtml(language.code)}"
-              aria-label="${escapeHtml(label)}"
-              title="${escapeHtml(label)}"
-              ${isActive ? 'aria-current="true"' : ""}
-            >
-              <span aria-hidden="true">${escapeHtml(language.flag)}</span>
-            </button>
-          `;
-        })
-        .join("");
+      switcher.innerHTML = `
+        <button
+          type="button"
+          class="language-trigger"
+          data-language-trigger
+          aria-label="${escapeHtml(activeLabel)}"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="${menuId}"
+          title="${escapeHtml(activeLabel)}"
+        >
+          <span aria-hidden="true">${escapeHtml(activeLanguage.flag)}</span>
+        </button>
+        <div class="language-menu" id="${menuId}" data-language-menu role="menu" hidden>
+          ${languageOptions
+            .map((language) => {
+              const isActive = language.code === currentLanguage;
+              const label = `${language.nativeLabel} / ${language.label}`;
+
+              return `
+                <button
+                  type="button"
+                  class="language-option ${isActive ? "is-active" : ""}"
+                  data-language-option="${escapeHtml(language.code)}"
+                  role="menuitem"
+                  aria-label="${escapeHtml(label)}"
+                  ${isActive ? 'aria-current="true"' : ""}
+                >
+                  <span class="language-option-flag" aria-hidden="true">${escapeHtml(language.flag)}</span>
+                  <span class="language-option-name">${escapeHtml(language.nativeLabel)}</span>
+                </button>
+              `;
+            })
+            .join("")}
+        </div>
+      `;
+    });
+
+    const closeLanguageMenus = () => {
+      document.querySelectorAll("[data-language-switcher]").forEach((switcher) => {
+        const trigger = switcher.querySelector("[data-language-trigger]");
+        const menu = switcher.querySelector("[data-language-menu]");
+
+        switcher.classList.remove("is-open");
+        trigger?.setAttribute("aria-expanded", "false");
+        if (menu) {
+          menu.hidden = true;
+        }
+      });
+    };
+
+    document.querySelectorAll("[data-language-trigger]").forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        event.stopPropagation();
+
+        const switcher = trigger.closest("[data-language-switcher]");
+        const menu = switcher?.querySelector("[data-language-menu]");
+        const willOpen = !switcher?.classList.contains("is-open");
+
+        closeLanguageMenus();
+
+        if (switcher && menu && willOpen) {
+          switcher.classList.add("is-open");
+          trigger.setAttribute("aria-expanded", "true");
+          menu.hidden = false;
+        }
+      });
     });
 
     document.querySelectorAll("[data-language-option]").forEach((button) => {
       button.addEventListener("click", () => {
         const nextLanguage = button.dataset.languageOption;
         if (!nextLanguage || nextLanguage === currentLanguage) {
+          closeLanguageMenus();
           return;
         }
 
@@ -116,6 +170,13 @@
         nextUrl.searchParams.set("lang", nextLanguage);
         window.location.href = nextUrl.toString();
       });
+    });
+
+    document.addEventListener("click", closeLanguageMenus);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeLanguageMenus();
+      }
     });
   };
 
