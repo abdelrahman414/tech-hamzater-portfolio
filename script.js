@@ -120,7 +120,23 @@
 
   const creations = document.querySelector("[data-creations]");
   if (creations && content.creations) {
-    const renderCreationCard = (item, index) => {
+    const creationLeadCount = Math.min(3, Math.max(0, content.creations.length - 1));
+    const visualCreations = [
+      ...content.creations.slice(-creationLeadCount).map((item, offset) => ({
+        item,
+        realIndex: content.creations.length - creationLeadCount + offset,
+      })),
+      ...content.creations.slice(0, content.creations.length - creationLeadCount).map((item, realIndex) => ({
+        item,
+        realIndex,
+      })),
+    ];
+    const initialCreationIndex = Math.max(
+      0,
+      visualCreations.findIndex(({ realIndex }) => realIndex === 0),
+    );
+
+    const renderCreationCard = ({ item, realIndex }, visualIndex) => {
       const posterPath =
         item.poster ||
         (item.video ? item.video.replace("/creations/", "/creations/posters/").replace(/\.mp4$/, ".png") : "");
@@ -140,11 +156,11 @@
         : "";
       const cardAttributes = `
         class="creation-card"
-        data-real-index="${index}"
-        data-visual-index="${index}"
+        data-real-index="${realIndex}"
+        data-visual-index="${visualIndex}"
       `;
       const cardInner = `
-        <div class="creation-phone tone-${(index % 4) + 1}">
+        <div class="creation-phone tone-${(realIndex % 4) + 1}">
           ${videoMarkup}
           <div class="creation-screen-glow" aria-hidden="true"></div>
           <span class="creation-runtime">${escapeHtml(item.runtime)}</span>
@@ -176,14 +192,17 @@
     };
 
     creations.dataset.creationCount = String(content.creations.length);
-    creations.innerHTML = content.creations.map(renderCreationCard).join("");
+    creations.dataset.initialIndex = String(initialCreationIndex);
+    creations.innerHTML = visualCreations.map(renderCreationCard).join("");
   }
 
   const creationDeck = document.querySelector("[data-creation-deck]");
   if (creationDeck) {
+    const creationGrid = creationDeck.querySelector("[data-creations]");
     const creationCards = [...creationDeck.querySelectorAll(".creation-card")];
     const creationControls = [...document.querySelectorAll("[data-creation-control]")];
-    let activeCreationIndex = 0;
+    const initialCreationIndex = Number(creationGrid?.dataset.initialIndex || 0);
+    let activeCreationIndex = initialCreationIndex;
     let deckIsVisible = false;
     let isSettingInitialDeckPosition = true;
 
@@ -316,8 +335,8 @@
         return;
       }
 
-      activeCreationIndex = 0;
-      centerCreationCard(creationCards[0], "auto");
+      activeCreationIndex = initialCreationIndex;
+      centerCreationCard(creationCards[initialCreationIndex], "auto");
       requestDeckUpdate();
     };
 
