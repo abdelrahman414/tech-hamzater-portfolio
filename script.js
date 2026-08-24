@@ -578,9 +578,15 @@
       centerInitialCreation();
       window.setTimeout(() => {
         centerInitialCreation();
-        isSettingInitialDeckPosition = false;
       }, 220);
+      window.setTimeout(() => {
+        centerInitialCreation();
+        isSettingInitialDeckPosition = false;
+      }, 900);
     });
+
+    window.addEventListener("load", centerInitialCreation, { once: true });
+    document.fonts?.ready?.then(centerInitialCreation).catch(() => {});
   }
 
   const services = document.querySelector("[data-services]");
