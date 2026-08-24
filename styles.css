@@ -725,6 +725,12 @@ h1 {
   scroll-behavior: auto;
 }
 
+.creation-deck.is-resetting .creation-card,
+.creation-deck.is-resetting .creation-phone,
+.creation-deck.is-resetting .creation-phone video {
+  transition: none;
+}
+
 .creation-deck::-webkit-scrollbar {
   height: 0.65rem;
 }

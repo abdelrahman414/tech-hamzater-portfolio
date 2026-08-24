@@ -121,25 +121,18 @@
   const creations = document.querySelector("[data-creations]");
   if (creations && content.creations) {
     const creationItems = content.creations;
-    const cloneBuffer = Math.min(4, creationItems.length);
-    const leadingClones = creationItems.slice(-cloneBuffer).map((item, index) => ({
-      item,
-      realIndex: creationItems.length - cloneBuffer + index,
-      cloneSide: "before",
-    }));
-    const originalItems = creationItems.map((item, index) => ({
-      item,
-      realIndex: index,
-      cloneSide: "original",
-    }));
-    const trailingClones = creationItems.slice(0, cloneBuffer).map((item, index) => ({
-      item,
-      realIndex: index,
-      cloneSide: "after",
-    }));
-    const circularItems = [...leadingClones, ...originalItems, ...trailingClones];
+    const loopCopies = creationItems.length > 1 ? 7 : 1;
+    const centerLoopCopy = Math.floor(loopCopies / 2);
+    const circularItems = Array.from({ length: loopCopies }, (_, loopCopy) =>
+      creationItems.map((item, realIndex) => ({
+        item,
+        realIndex,
+        loopCopy,
+        cloneSide: loopCopy === centerLoopCopy ? "original" : "loop",
+      })),
+    ).flat();
 
-    const renderCreationCard = ({ item, realIndex, cloneSide }, visualIndex) => {
+    const renderCreationCard = ({ item, realIndex, loopCopy, cloneSide }, visualIndex) => {
       const isClone = cloneSide !== "original";
       const posterPath =
         item.poster ||
@@ -160,6 +153,7 @@
         class="creation-card${isClone ? " is-clone" : ""}"
         data-real-index="${realIndex}"
         data-visual-index="${visualIndex}"
+        data-loop-copy="${loopCopy}"
         data-loop-side="${cloneSide}"
         ${isClone ? 'aria-hidden="true" tabindex="-1"' : ""}
       `;
@@ -195,8 +189,9 @@
       `;
     };
 
-    creations.dataset.cloneBuffer = String(cloneBuffer);
     creations.dataset.creationCount = String(creationItems.length);
+    creations.dataset.loopCopies = String(loopCopies);
+    creations.dataset.centerLoopCopy = String(centerLoopCopy);
     creations.innerHTML = circularItems.map(renderCreationCard).join("");
   }
 
@@ -205,27 +200,28 @@
     const creationGrid = creationDeck.querySelector("[data-creations]");
     const creationCards = [...creationDeck.querySelectorAll(".creation-card")];
     const realCreationCount = Number(creationGrid?.dataset.creationCount || creationCards.length);
-    const cloneBuffer = Number(creationGrid?.dataset.cloneBuffer || 0);
-    const originalStartIndex = cloneBuffer;
-    const originalEndIndex = Math.max(originalStartIndex, originalStartIndex + realCreationCount - 1);
-    let activeCreationIndex = originalStartIndex;
+    const loopCopies = Number(creationGrid?.dataset.loopCopies || 1);
+    const centerLoopCopy = Number(creationGrid?.dataset.centerLoopCopy || 0);
+    const centerSetStartIndex = Math.min(centerLoopCopy * realCreationCount, creationCards.length - 1);
+    let activeCreationIndex = centerSetStartIndex;
     let deckIsVisible = true;
-    let loopTimer = 0;
-    let resetTimer = 0;
-    let isResettingLoop = false;
+    let loopCycleWidth = 0;
+    let centerLoopScrollLeft = 0;
+    let isNormalizingLoop = false;
     let isSettingInitialDeckPosition = true;
-
-    const clearLoopState = () => {
-      window.clearTimeout(loopTimer);
-      creationDeck.classList.remove("is-looping", "is-looping-forward", "is-looping-backward");
-    };
+    let pendingLoopVideoState = null;
 
     const getCardCenterLeft = (card) =>
       card.offsetLeft - (creationDeck.clientWidth - card.offsetWidth) / 2;
 
-    const getOriginalIndexForCard = (card) => {
-      const realIndex = Number(card?.dataset.realIndex || 0);
-      return originalStartIndex + realIndex;
+    const refreshLoopMetrics = () => {
+      const firstCard = creationCards[0];
+      const nextSetCard = creationCards[realCreationCount];
+      loopCycleWidth =
+        loopCopies > 1 && firstCard && nextSetCard ? nextSetCard.offsetLeft - firstCard.offsetLeft : 0;
+      centerLoopScrollLeft = creationCards[centerSetStartIndex]
+        ? getCardCenterLeft(creationCards[centerSetStartIndex])
+        : 0;
     };
 
     const centerCreationCard = (card, behavior = "smooth") => {
@@ -246,51 +242,108 @@
       });
     };
 
-    const jumpToOriginalTwin = () => {
-      if (isResettingLoop || realCreationCount === creationCards.length) {
+    const getClosestCreationIndex = () => {
+      const deckRect = creationDeck.getBoundingClientRect();
+      const deckCenter = deckRect.left + deckRect.width / 2;
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      creationCards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const distance = Math.abs(deckCenter - cardCenter);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      return closestIndex;
+    };
+
+    const getClosestVideoState = () => {
+      const closestCard = creationCards[getClosestCreationIndex()];
+      const video = closestCard?.querySelector("video");
+
+      if (!closestCard || !video) {
+        return null;
+      }
+
+      return {
+        realIndex: Number(closestCard.dataset.realIndex || 0),
+        currentTime: video.currentTime || 0,
+        shouldPlay: deckIsVisible && !video.paused,
+      };
+    };
+
+    const applyPendingLoopVideoState = (card, video) => {
+      if (!pendingLoopVideoState || Number(card.dataset.realIndex || 0) !== pendingLoopVideoState.realIndex) {
         return;
       }
 
-      const activeCard = creationCards[activeCreationIndex];
-      const targetIndex = getOriginalIndexForCard(activeCard);
-      const activeIsClone = activeCreationIndex < originalStartIndex || activeCreationIndex > originalEndIndex;
+      const { currentTime, shouldPlay } = pendingLoopVideoState;
+      pendingLoopVideoState = null;
 
-      if (!activeIsClone || !creationCards[targetIndex]) {
+      const restoreVideo = () => {
+        if (currentTime > 0.05 && Number.isFinite(video.duration) && video.duration > currentTime) {
+          try {
+            video.currentTime = currentTime;
+          } catch {
+            // Some browsers reject seeks before enough data is buffered.
+          }
+        }
+
+        if (shouldPlay && deckIsVisible) {
+          video.play().catch(() => {});
+        }
+      };
+
+      if (video.readyState >= 1) {
+        restoreVideo();
         return;
       }
 
-      isResettingLoop = true;
-      activeCreationIndex = targetIndex;
+      video.addEventListener("loadedmetadata", restoreVideo, { once: true });
+      video.load();
+    };
+
+    const normalizeLoopScroll = () => {
+      if (isNormalizingLoop || isSettingInitialDeckPosition || !loopCycleWidth) {
+        return;
+      }
+
+      const upperLimit = centerLoopScrollLeft + loopCycleWidth * 1.05;
+      const lowerLimit = centerLoopScrollLeft - loopCycleWidth * 1.05;
+      let nextScrollLeft = creationDeck.scrollLeft;
+
+      while (nextScrollLeft > upperLimit) {
+        nextScrollLeft -= loopCycleWidth;
+      }
+
+      while (nextScrollLeft < lowerLimit) {
+        nextScrollLeft += loopCycleWidth;
+      }
+
+      if (Math.abs(nextScrollLeft - creationDeck.scrollLeft) < 1) {
+        return;
+      }
+
+      pendingLoopVideoState = getClosestVideoState();
+      isNormalizingLoop = true;
       creationDeck.classList.add("is-resetting");
-      centerCreationCard(creationCards[targetIndex], "auto");
+      creationDeck.scrollLeft = nextScrollLeft;
 
       window.requestAnimationFrame(() => {
         creationDeck.classList.remove("is-resetting");
-        isResettingLoop = false;
+        isNormalizingLoop = false;
         requestDeckUpdate();
       });
     };
 
-    const scheduleLoopReset = () => {
-      window.clearTimeout(resetTimer);
-      resetTimer = window.setTimeout(jumpToOriginalTwin, 120);
-    };
-
-    const scrollToCreation = (targetIndex, direction) => {
+    const scrollToCreation = (targetIndex) => {
       const targetVisualIndex = Math.max(0, Math.min(creationCards.length - 1, targetIndex));
       const targetCard = creationCards[targetVisualIndex];
-      const isWrapping =
-        (direction > 0 && activeCreationIndex === originalEndIndex && targetVisualIndex === originalEndIndex + 1) ||
-        (direction < 0 && activeCreationIndex === originalStartIndex && targetVisualIndex === originalStartIndex - 1);
-
-      if (isWrapping) {
-        clearLoopState();
-        creationDeck.classList.add(
-          "is-looping",
-          direction > 0 ? "is-looping-forward" : "is-looping-backward",
-        );
-        loopTimer = window.setTimeout(clearLoopState, 820);
-      }
 
       activeCreationIndex = targetVisualIndex;
       centerCreationCard(targetCard);
@@ -342,6 +395,7 @@
         }
 
         if (isActive && deckIsVisible) {
+          applyPendingLoopVideoState(card, video);
           video.play().catch(() => {});
         } else {
           video.pause();
@@ -349,11 +403,6 @@
       });
 
       activeCreationIndex = activeIndex;
-
-      const activeIsClone = activeIndex < originalStartIndex || activeIndex > originalEndIndex;
-      if (activeIsClone) {
-        scheduleLoopReset();
-      }
     };
 
     let deckRaf = 0;
@@ -362,14 +411,24 @@
       deckRaf = window.requestAnimationFrame(updateCreationDeck);
     };
 
-    creationDeck.addEventListener("scroll", requestDeckUpdate, { passive: true });
-    window.addEventListener("resize", requestDeckUpdate);
+    creationDeck.addEventListener(
+      "scroll",
+      () => {
+        normalizeLoopScroll();
+        requestDeckUpdate();
+      },
+      { passive: true },
+    );
+    window.addEventListener("resize", () => {
+      refreshLoopMetrics();
+      requestDeckUpdate();
+    });
 
     document.querySelectorAll("[data-creation-control]").forEach((button) => {
       button.addEventListener("click", () => {
         isSettingInitialDeckPosition = false;
         const direction = button.dataset.creationControl === "next" ? 1 : -1;
-        scrollToCreation(activeCreationIndex + direction, direction);
+        scrollToCreation(activeCreationIndex + direction);
       });
     });
 
@@ -391,8 +450,9 @@
         return;
       }
 
-      activeCreationIndex = originalStartIndex;
-      centerCreationCard(creationCards[originalStartIndex], "auto");
+      refreshLoopMetrics();
+      activeCreationIndex = centerSetStartIndex;
+      centerCreationCard(creationCards[centerSetStartIndex], "auto");
       requestDeckUpdate();
     };
 
