@@ -254,7 +254,7 @@
   const collaborations = document.querySelector("[data-collaborations]");
   const logoTile = (item) => `
     <article class="logo-tile" data-animate>
-      <img src="${item.logo}" alt="${escapeHtml(item.name)} logo" loading="lazy">
+      <img src="${item.logo}" alt="${escapeHtml(item.name)} logo" loading="lazy" decoding="async">
       <span>${escapeHtml(item.name)}</span>
       <small>${escapeHtml(item.category)}</small>
     </article>
@@ -266,7 +266,7 @@
     .map(
       (item) => `
         <div class="marquee-logo" aria-hidden="true">
-          <img src="${item.logo}" alt="" loading="eager">
+          <img src="${item.logo}" alt="" loading="lazy" decoding="async" fetchpriority="low">
         </div>
       `,
     )
@@ -315,9 +315,13 @@
         (item.video ? item.video.replace("/creations/", "/creations/posters/").replace(/\.mp4$/, ".png") : "");
       const videoMarkup = item.video
         ? `
+          ${
+            posterPath
+              ? `<img class="creation-poster" data-src="${escapeHtml(posterPath)}" alt="" loading="lazy" decoding="async" draggable="false">`
+              : ""
+          }
           <video
-            src="${escapeHtml(item.video)}"
-            ${posterPath ? `poster="${escapeHtml(posterPath)}"` : ""}
+            data-src="${escapeHtml(item.video)}"
             muted
             loop
             playsinline
@@ -377,6 +381,13 @@
       video.setAttribute("controlsList", "nodownload noplaybackrate noremoteplayback");
       video.disablePictureInPicture = true;
       video.disableRemotePlayback = true;
+      video.addEventListener(
+        "loadeddata",
+        () => {
+          video.closest(".creation-card")?.classList.add("is-video-ready");
+        },
+        { once: true },
+      );
     });
   }
 
@@ -389,6 +400,26 @@
     let activeCreationIndex = initialCreationIndex;
     let deckIsVisible = false;
     let isSettingInitialDeckPosition = true;
+
+    const hydrateCreationPoster = (card) => {
+      const poster = card?.querySelector(".creation-poster");
+
+      if (!poster || poster.currentSrc || poster.getAttribute("src") || !poster.dataset.src) {
+        return;
+      }
+
+      poster.src = poster.dataset.src;
+    };
+
+    const hydrateCreationVideo = (video) => {
+      if (!video || video.currentSrc || !video.dataset.src) {
+        return;
+      }
+
+      hydrateCreationPoster(video.closest(".creation-card"));
+      video.src = video.dataset.src;
+      video.load();
+    };
 
     const getCardCenterLeft = (card) =>
       card.offsetLeft - (creationDeck.clientWidth - card.offsetWidth) / 2;
@@ -466,11 +497,20 @@
 
       creationCards.forEach((card, index) => {
         const isActive = index === activeIndex;
+        const isNearActive = Math.abs(index - activeIndex) <= 1;
         const video = card.querySelector("video");
         card.classList.toggle("is-active", isActive);
 
+        if (deckIsVisible) {
+          hydrateCreationPoster(card);
+        }
+
         if (!video) {
           return;
+        }
+
+        if (deckIsVisible && isNearActive) {
+          hydrateCreationVideo(video);
         }
 
         if (isActive && deckIsVisible) {
@@ -506,7 +546,7 @@
         deckIsVisible = entry.isIntersecting;
         requestDeckUpdate();
       },
-      { threshold: 0.22 },
+      { rootMargin: "900px 0px", threshold: 0.01 },
     );
 
     deckObserver.observe(creationDeck);
