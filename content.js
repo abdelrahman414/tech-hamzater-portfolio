@@ -195,6 +195,7 @@ window.creatorSiteContent = {
     { name: "Intel", category: "Technology", logo: "./assets/logos/intel.png" },
     { name: "MSI", category: "Gaming Hardware", logo: "./assets/logos/msi.png" },
     { name: "Creati", category: "AI Creative Tool", logo: "./assets/logos/creati.png" },
+    { name: "Digitopia", category: "Technology", logo: "./assets/logos/digitopia.jpg" },
     { name: "Emergent", category: "AI Platform", logo: "./assets/logos/emergent.png" },
     { name: "FIFINE", category: "Audio Gear", logo: "./assets/logos/fifine.png" },
     { name: "Flowith", category: "AI Workspace", logo: "./assets/logos/flowith.png" },
