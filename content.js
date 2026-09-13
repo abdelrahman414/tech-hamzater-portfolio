@@ -215,6 +215,7 @@ window.creatorSiteContent = {
     { name: "Flowith", category: "AI Workspace", group: "AI Workspaces & Assistants", logo: "./assets/logos/flowith.png" },
     { name: "Skywork", category: "AI Productivity", group: "AI Workspaces & Assistants", logo: "./assets/logos/skywork.png" },
     { name: "Napkin AI", category: "AI Productivity", group: "AI Workspaces & Assistants", logo: "./assets/logos/napkin-ai.jpg" },
+    { name: "AIsa", category: "AI Tools", group: "AI Workspaces & Assistants", logo: "./assets/logos/aisa.png" },
     { name: "Emergent", category: "AI Platform", group: "AI Workspaces & Assistants", logo: "./assets/logos/emergent.png" },
     { name: "Buzzy", category: "AI Tools", group: "AI Workspaces & Assistants", logo: "./assets/logos/buzzy.png" },
     { name: "Runable", category: "AI Tools", group: "AI Workspaces & Assistants", logo: "./assets/logos/runable.png" },
